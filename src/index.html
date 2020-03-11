@@ -1,0 +1,50 @@
+<html>
+  <head>
+    <style>
+      body {
+        margin: 0;
+      }
+
+      canvas {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+        top: 0;
+        left: 0;
+      }
+
+      #controls {
+        position: fixed;
+        z-index: 5;
+        top: 0;
+        left: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="controls">
+      <div>
+        <input id="f-input" type="text" />
+      </div>
+      <div>
+        <input id="x-input" type="number" />
+      </div>
+      <div>
+        <input id="x-min-input" type="number" />
+      </div>
+      <div>
+        <input id="x-max-input" type="number" />
+      </div>
+      <div>
+        <input id="y-min-input" type="number" />
+      </div>
+      <div>
+        <input id="y-max-input" type="number" />
+      </div>
+    </div>
+    <canvas id="canvas" />
+    <script src="mvc.js"></script>
+    <script src="index.js"></script>
+  </body>
+</html>
