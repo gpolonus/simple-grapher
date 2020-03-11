@@ -69,7 +69,7 @@ const state = {
 const actions = {
   changeState: (key, data) => s => ({
     ...s,
-    [key]: data,
+    [key]: key === 'f' ? data : parseInt(data),
   }),
 }
 
