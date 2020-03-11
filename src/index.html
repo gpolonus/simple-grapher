@@ -25,25 +25,23 @@
   <body>
     <div id="controls">
       <div>
-        <input id="f-input" type="text" />
+        f: <input id="f-input" type="text" value="x" />
       </div>
       <div>
-        <input id="x-input" type="number" />
+        xmin: <input id="x-min-input" type="number" value="-10" />
       </div>
       <div>
-        <input id="x-min-input" type="number" />
+        xmax: <input id="x-max-input" type="number" value="10" />
       </div>
       <div>
-        <input id="x-max-input" type="number" />
+        ymin: <input id="y-min-input" type="number" value="-10" />
       </div>
       <div>
-        <input id="y-min-input" type="number" />
-      </div>
-      <div>
-        <input id="y-max-input" type="number" />
+        ymax: <input id="y-max-input" type="number" value="10" />
       </div>
     </div>
     <canvas id="canvas" />
+    <script src="https://unpkg.com/mathjs@6.6.1/dist/math.min.js"></script>
     <script src="mvc.js"></script>
     <script src="index.js"></script>
   </body>

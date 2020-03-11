@@ -26,7 +26,7 @@ render could be on a loop or called after state updates
  * Returns
  *  object holding state mutation functions
 */
-function run(state, actions, render) {
+function run(state, actions, render, init = false) {
   let s = state
   const a = Object.entries(actions).reduce((ac, [name, action]) => ({
     ...ac,
@@ -35,6 +35,7 @@ function run(state, actions, render) {
       render(s, a)
     }
   }), {})
+  init && render(state, actions)
   return a
 }
 

@@ -8,7 +8,7 @@ const math = window.math
 
 const start = (
   canvas,
-  xInput,
+  fInput,
   xMinInput,
   xMaxInput,
   yMinInput,
@@ -28,7 +28,8 @@ const start = (
   const triggers = mvc.run(
     state,
     actions,
-    render(ctx, pw, ph)
+    render(ctx, pw, ph),
+    true // run the render initially
   )
 
   // get the function that will change a key of state
@@ -36,7 +37,6 @@ const start = (
 
   // setup the elements to be looped over
   const elements = {
-    x: xInput,
     f: fInput,
     xMin: xMinInput,
     xMax: xMaxInput,
@@ -60,7 +60,7 @@ const changer = changeState => key => ({ target: { value } }) => changeState(key
 
 const state = {
   f: 'x',
-  xMIn: -10,
+  xMin: -10,
   xMax: 10,
   yMin: -10,
   yMax: 10
@@ -68,24 +68,28 @@ const state = {
 
 const actions = {
   changeState: (key, data) => s => ({
+    ...s,
     [key]: data,
-    ...s
   }),
 }
 
-const pointToCanvas = (pw, ph) => (x, y, xMin, xMax, yMin, yMax) => [ (x - xMin) / (xMax - xMin) * pw, (y - yMin) / (yMax - yMin) * ph ]
+const pointToCanvas = (pw, ph, xMin, xMax, yMin, yMax) => (x, y) => [ (x - xMin) / (xMax - xMin) * pw, ph - (y - yMin) / (yMax - yMin) * ph ]
 
 const render = (ctx, pw, ph) => ({ f, xMin, xMax, yMin, yMax }, a) => {
+
+  const plotPoint = pointToCanvas(pw, ph, xMin, xMax, yMin, yMax)
+
   // *** clear the canvas
   ctx.clearRect(0, 0, pw, ph)
 
   // *** draw the axes
+  const [ originX, originY ] = plotPoint(0, 0)
   ctx.lineWidth = 2;
   ctx.beginPath()
-  ctx.moveTo(pw / 2, 0)
-  ctx.lineTo(pw / 2, ph)
-  ctx.moveTo(0, ph / 2)
-  ctx.lineTo(pw, ph / 2)
+  ctx.moveTo(originX, 0)
+  ctx.lineTo(originX, ph)
+  ctx.moveTo(0, originY)
+  ctx.lineTo(pw, originY)
   ctx.stroke()
 
   // *** TODO: draw the labels
@@ -93,13 +97,12 @@ const render = (ctx, pw, ph) => ({ f, xMin, xMax, yMin, yMax }, a) => {
 
   // *** draw the points
   const numberOfPoints = 1000;
-  const plotPoint = pointToCanvas(pw, ph)
   const evalF = x => math.evaluate(f, { x })
   const delta = (xMax - xMin) / numberOfPoints
   Array(numberOfPoints).fill().map((_, i) => {
     const x = xMin + i * delta
     const y = evalF(x)
-    const [cx, cy] = plotPoint(x, y, xMin, xMax, yMin, yMax)
+    const [cx, cy] = plotPoint(x, y)
     ctx.fillRect(cx - 2, cy - 2, 4, 4)
   })
 }
@@ -108,12 +111,11 @@ const render = (ctx, pw, ph) => ({ f, xMin, xMax, yMin, yMax }, a) => {
 /**
  * RUN THE THING
  */
-((canvas, fInput, xInput)=>{
-  start(canvas, fInput, xInput)
+((...args)=>{
+  start(...args)
 })(
   document.getElementById('canvas'),
   document.getElementById('f-input'),
-  document.getElementById('x-input'),
   document.getElementById('x-min-input'),
   document.getElementById('x-max-input'),
   document.getElementById('y-min-input'),
