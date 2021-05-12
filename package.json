@@ -9,7 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "mathjs": "^6.6.1"
+    "mathjs": "^7.5.1"
   },
   "devDependencies": {
     "live-server": "^1.2.1",
